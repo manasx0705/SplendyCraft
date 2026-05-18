@@ -456,14 +456,15 @@ this.style.boxShadow='0 10px 35px rgba(0,0,0,0.45)';
   const track = document.getElementById("gallery-track");
   const dotsContainer = document.getElementById("gallery-dots");
 
-  let currentIndex = 1;
+  let currentIndex = slides.length;
 
   // CLONE FOR INFINITE LOOP
-  const sliderData = [
-    slides[slides.length - 1],
-    ...slides,
-    slides[0]
-  ];
+const sliderData = [
+  ...slides,
+  ...slides,
+  ...slides,
+  ...slides
+];
 
   // CREATE CARDS
   sliderData.forEach((slide) => {
@@ -576,29 +577,39 @@ this.style.boxShadow='0 10px 35px rgba(0,0,0,0.45)';
 
 
   // BUTTON CONTROL
-  window.galleryMove = function(direction) {
+window.galleryMove = function(direction) {
 
-    currentIndex += direction;
+  currentIndex += direction;
 
-    updateSlider(true);
+  updateSlider(true);
 
-    // INFINITE LOOP FIX
+  // SOFT RESET FAR AWAY
+  if (currentIndex > sliderData.length - slides.length - 2) {
+
     setTimeout(() => {
 
-      if (currentIndex === sliderData.length - 1) {
+      track.style.transition = "none";
 
-        currentIndex = 1;
-        updateSlider(false);
-      }
+      currentIndex = slides.length;
 
-      if (currentIndex === 0) {
-
-        currentIndex = slides.length;
-        updateSlider(false);
-      }
+      updateSlider(false);
 
     }, 700);
-  };
+  }
+
+  if (currentIndex < 2) {
+
+    setTimeout(() => {
+
+      track.style.transition = "none";
+
+      currentIndex = slides.length * 2;
+
+      updateSlider(false);
+
+    }, 700);
+  }
+};
 
 
   // INITIAL POSITION
