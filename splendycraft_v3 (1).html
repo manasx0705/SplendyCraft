@@ -415,95 +415,105 @@ this.style.boxShadow='0 10px 35px rgba(0,0,0,0.45)';
 ">
 &#10095;
 </button>
-  </div>
+  <div id="gallery-dots" style="
+position:absolute;
+bottom:-3.5rem;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+justify-content:center;
+align-items:center;
+gap:0.9rem;
+z-index:30;
+padding:0.7rem 1.4rem;
+border-radius:999px;
+background:rgba(20,16,14,0.55);
+backdrop-filter:blur(16px);
+-webkit-backdrop-filter:blur(16px);
+border:1px solid rgba(226,185,106,0.12);
+box-shadow:0 10px 40px rgba(0,0,0,0.25);
+"></div>
 
-  <div id="gallery-dots" style="display:flex; justify-content:center; gap:0.6rem; margin-top:2.5rem; padding:0 4.5rem;"></div>
+  </div>
 
 </section>
 <script>
 (function () {
 
-  // IMAGE DATA
   const slides = [
 
-  {
-    src: "./ganesha.png",
-    title: "Sacred Wood Carvings",
-    subtitle: "Handcrafted Heritage"
-  },
+    {
+      src: "./ganesha.png",
+      title: "Sacred Wood Carvings",
+      subtitle: "Handcrafted Heritage"
+    },
 
-  {
-    src: "./pattachitra.jpeg",
-    title: "Pattachitra Paintings",
-    subtitle: "Traditional Indian Art"
-  },
+    {
+      src: "./pattachitra.jpeg",
+      title: "Pattachitra Paintings",
+      subtitle: "Traditional Indian Art"
+    },
 
-  {
-    src: "./vase.png",
-    title: "Luxury Bidriware Vases",
-    subtitle: "Modern Elegance"
-  },
+    {
+      src: "./vase.png",
+      title: "Luxury Bidriware Vases",
+      subtitle: "Modern Elegance"
+    },
 
-  {
-    src: "./plate.png",
-    title: "Bidriware Decorative Plates",
-    subtitle: "Artisan Crafted"
-  },
+    {
+      src: "./plate.png",
+      title: "Bidriware Decorative Plates",
+      subtitle: "Artisan Crafted"
+    },
 
-  {
-    src: "./lamp.png",
-    title: "Royal Vases",
-    subtitle: "Timeless Decor"
-  },
+    {
+      src: "./lamp.png",
+      title: "Royal Vases",
+      subtitle: "Timeless Decor"
+    },
 
-  // NEW IMAGES
+    {
+      src: "./madhubani.jpeg",
+      title: "Madhubani Folk Art",
+      subtitle: "Vibrant Traditional Expression"
+    },
 
-  {
-    src: "./madhubani.jpeg",
-    title: "Madhubani Paintings",
-    subtitle: "Vibrant Traditional Expression"
-  },
+    {
+      src: "./mysore.jpeg",
+      title: "Designer Heritage Sarees",
+      subtitle: "Luxury Indian Weaves"
+    },
 
-  {
-    src: "./mysore.jpeg",
-    title: "Mysore Silk Sarees",
-    subtitle: "Luxury Indian Weaves"
-  },
+    {
+      src: "./jaipur blue.jpeg",
+      title: "Lotus Ceramic Vase",
+      subtitle: "Elegant Contemporary Decor"
+    },
 
-  {
-    src: "./jaipur blue.jpeg",
-    title: "Jaipur Blue Potteries",
-    subtitle: "Elegant Contemporary Decor"
-  },
+    {
+      src: "./tanjore.jpeg",
+      title: "Sacred Balaji Artwork",
+      subtitle: "Temple Inspired Grandeur"
+    }
 
-  {
-    src: "./tanjore.jpeg",
-    title: "Tanjore Paintings",
-    subtitle: "Temple Inspired Grandeur"
-  }
-
-];
+  ];
 
 
   const track = document.getElementById("gallery-track");
   const dotsContainer = document.getElementById("gallery-dots");
 
-  let currentIndex = 1;
+  let currentIndex = 0;
 
-  // CLONE FOR INFINITE LOOP
-  const sliderData = [
-    slides[slides.length - 1],
-    ...slides,
-    slides[0]
-  ];
+  const cardWidth = 480+24;
+  const visibleOffset = 60;
 
   // CREATE CARDS
-  sliderData.forEach((slide) => {
+  slides.forEach((slide) => {
 
     const card = document.createElement("div");
 
-    card.style.minWidth = "420px";
-    card.style.height = "560px";
+    card.style.minWidth = "480px";
+    card.style.height = "500px";
     card.style.borderRadius = "28px";
     card.style.overflow = "hidden";
     card.style.position = "relative";
@@ -562,16 +572,19 @@ this.style.boxShadow='0 10px 35px rgba(0,0,0,0.45)';
 
     const dot = document.createElement("div");
 
-    dot.style.width = "10px";
-    dot.style.height = "10px";
+    dot.style.width = "12px";
+    dot.style.height = "12px";
     dot.style.borderRadius = "50%";
     dot.style.background =
-      i === 0 ? "#E2B96A" : "rgba(255,255,255,0.25)";
+      i === 0
+        ? "#E2B96A"
+        : "rgba(255,255,255,0.16)";
     dot.style.cursor = "pointer";
     dot.style.transition = "0.3s";
 
     dot.onclick = () => {
-      currentIndex = i + 1;
+
+      currentIndex = i;
       updateSlider();
     };
 
@@ -584,27 +597,23 @@ this.style.boxShadow='0 10px 35px rgba(0,0,0,0.45)';
     [...dotsContainer.children].forEach((dot, i) => {
 
       dot.style.background =
-        i === currentIndex - 1
+        i === currentIndex
           ? "#E2B96A"
-          : "rgba(255,255,255,0.25)";
+          : "rgba(255,255,255,0.16)";
     });
   }
 
 
-  function updateSlider(animated = true) {
+function updateSlider() {
 
-    const cardWidth = 444;
+  track.style.transition =
+    "transform 0.9s cubic-bezier(0.77,0,0.18,1)";
 
-    track.style.transition =
-      animated
-        ? "transform 0.7s cubic-bezier(0.77,0,0.18,1)"
-        : "none";
+  track.style.transform =
+    `translateX(calc(-${currentIndex * cardWidth}px + ${visibleOffset}px))`;
 
-    track.style.transform =
-      `translateX(-${currentIndex * cardWidth}px)`;
-
-    updateDots();
-  }
+  updateDots();
+}
 
 
   // BUTTON CONTROL
@@ -612,33 +621,22 @@ this.style.boxShadow='0 10px 35px rgba(0,0,0,0.45)';
 
     currentIndex += direction;
 
-    updateSlider(true);
+    // RESTART AFTER LAST IMAGE
+if (currentIndex >= slides.length) {
+      currentIndex = 0;
+    }
+    if (currentIndex < 0) {
+      currentIndex = slides.length - 1;
+    }
 
-    // INFINITE LOOP FIX
-    setTimeout(() => {
-
-      if (currentIndex === sliderData.length - 1) {
-
-        currentIndex = 1;
-        updateSlider(false);
-      }
-
-      if (currentIndex === 0) {
-
-        currentIndex = slides.length;
-        updateSlider(false);
-      }
-
-    }, 700);
+    updateSlider();
   };
 
 
-  // INITIAL POSITION
-  updateSlider(false);
+  updateSlider();
 
 })();
 </script>
-
 <!-- SUPPORT US -->
 <section class="support-section" id="support">
   <div class="support-bg"></div>
