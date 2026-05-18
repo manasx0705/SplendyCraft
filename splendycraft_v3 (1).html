@@ -425,46 +425,77 @@ this.style.boxShadow='0 10px 35px rgba(0,0,0,0.45)';
 
   // IMAGE DATA
   const slides = [
-    {
-      src: "./ganesha.png",
-      title: "Sacred Wood Carvings",
-      subtitle: "Handcrafted Heritage"
-    },
-    {
-      src: "./pattachitra.jpeg",
-      title: "Pattachitra Paintings",
-      subtitle: "Traditional Indian Art"
-    },
-    {
-      src: "./vase.png",
-      title: "Luxury Bidriware Vases",
-      subtitle: "Modern Elegance"
-    },
-    {
-      src: "./plate.png",
-      title: "Bidriware Decorative Plates",
-      subtitle: "Artisan Crafted"
-    },
-    {
-      src: "./lamp.png",
-      title: "Royal Vases",
-      subtitle: "Timeless Decor"
-    }
-  ];
+
+  {
+    src: "./ganesha.png",
+    title: "Sacred Wood Carvings",
+    subtitle: "Handcrafted Heritage"
+  },
+
+  {
+    src: "./pattachitra.jpeg",
+    title: "Pattachitra Paintings",
+    subtitle: "Traditional Indian Art"
+  },
+
+  {
+    src: "./vase.png",
+    title: "Luxury Bidriware Vases",
+    subtitle: "Modern Elegance"
+  },
+
+  {
+    src: "./plate.png",
+    title: "Bidriware Decorative Plates",
+    subtitle: "Artisan Crafted"
+  },
+
+  {
+    src: "./lamp.png",
+    title: "Royal Vases",
+    subtitle: "Timeless Decor"
+  },
+
+  // NEW IMAGES
+
+  {
+    src: "./madhubani.jpeg",
+    title: "Madhubani Paintings",
+    subtitle: "Vibrant Traditional Expression"
+  },
+
+  {
+    src: "./mysore.jpeg",
+    title: "Mysore Silk Sarees",
+    subtitle: "Luxury Indian Weaves"
+  },
+
+  {
+    src: "./jaipur blue.jpeg",
+    title: "Jaipur Blue Potteries",
+    subtitle: "Elegant Contemporary Decor"
+  },
+
+  {
+    src: "./tanjore.jpeg",
+    title: "Tanjore Paintings",
+    subtitle: "Temple Inspired Grandeur"
+  }
+
+];
 
 
   const track = document.getElementById("gallery-track");
   const dotsContainer = document.getElementById("gallery-dots");
 
-  let currentIndex = slides.length;
+  let currentIndex = 1;
 
   // CLONE FOR INFINITE LOOP
-const sliderData = [
-  ...slides,
-  ...slides,
-  ...slides,
-  ...slides
-];
+  const sliderData = [
+    slides[slides.length - 1],
+    ...slides,
+    slides[0]
+  ];
 
   // CREATE CARDS
   sliderData.forEach((slide) => {
@@ -577,39 +608,29 @@ const sliderData = [
 
 
   // BUTTON CONTROL
-window.galleryMove = function(direction) {
+  window.galleryMove = function(direction) {
 
-  currentIndex += direction;
+    currentIndex += direction;
 
-  updateSlider(true);
+    updateSlider(true);
 
-  // SOFT RESET FAR AWAY
-  if (currentIndex > sliderData.length - slides.length - 2) {
-
+    // INFINITE LOOP FIX
     setTimeout(() => {
 
-      track.style.transition = "none";
+      if (currentIndex === sliderData.length - 1) {
 
-      currentIndex = slides.length;
+        currentIndex = 1;
+        updateSlider(false);
+      }
 
-      updateSlider(false);
+      if (currentIndex === 0) {
 
-    }, 700);
-  }
-
-  if (currentIndex < 2) {
-
-    setTimeout(() => {
-
-      track.style.transition = "none";
-
-      currentIndex = slides.length * 2;
-
-      updateSlider(false);
+        currentIndex = slides.length;
+        updateSlider(false);
+      }
 
     }, 700);
-  }
-};
+  };
 
 
   // INITIAL POSITION
@@ -828,7 +849,7 @@ window.galleryMove = function(direction) {
         </div>
         <div style="padding-top:0.5rem;">
           <div style="font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; font-weight:500; color:var(--dark); margin-bottom:0.5rem; font-family:'Jost',sans-serif;">Share the Post to Us</div>
-          <p style="font-size:0.98rem; line-height:1.82; font-weight:300; color:var(--brown); font-family:'Jost',sans-serif;">Share the post of the product you want directly to our Instagram page, e-mail or phone number. This lets us know exactly which piece you have chosen.</p>
+          <p style="font-size:0.98rem; line-height:1.82; font-weight:300; color:var(--brown); font-family:'Jost',sans-serif;">Share the post of the product you want directly to our Instagram page, gmail or phone number. This lets us know exactly which piece you have chosen.</p>
         </div>
       </div>
 
